@@ -44,8 +44,18 @@ public class HomeController {
         model.addAttribute("skills",skillRepository.findAll());
         return "add";
     }
+    @RequestMapping(value = "/add" ,method = RequestMethod.POST,params = "employerId")
+    public String addFormFail(@ModelAttribute @Valid Job newHob,Model model, @RequestParam Integer employerId){
+        model.addAttribute("fail","Sorry,you must choose a skill");
+        model.addAttribute("title", "Add Job");
+       // model.addAttribute(new Job());
+        model.addAttribute("employers",employerRepository.findAll());
+        model.addAttribute("skills",skillRepository.findAll());
+        return "add";
 
-    @PostMapping("add")
+    }
+    //@PostMapping("add")
+    @RequestMapping(value = "/add" ,method = RequestMethod.POST,params={"employerId","skills"})
     public String processAddJobForm(@ModelAttribute @Valid Job newJob,
                                        Errors errors, Model model, @RequestParam Integer employerId, @RequestParam List<Integer> skills) {
 
@@ -59,11 +69,7 @@ public class HomeController {
         }if(!skills.isEmpty()){
             List<Skill> skillObjs = (List<Skill>) skillRepository.findAllById(skills);
             newJob.setSkills(skillObjs);
-//            List<Skill> skill = new ArrayList<>();
-//            for(int i=0;i<skills.size();i++){
-//                skill.add(skillRepository.findById(skills.get(i)).get());
-//            }
-//            newJob.setSkills(skill);
+
         }
         jobRepository.save(newJob);
 

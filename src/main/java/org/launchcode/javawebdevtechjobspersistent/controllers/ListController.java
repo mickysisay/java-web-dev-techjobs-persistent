@@ -5,6 +5,7 @@ import org.launchcode.javawebdevtechjobspersistent.models.data.EmployerRepositor
 import org.launchcode.javawebdevtechjobspersistent.models.data.JobRepository;
 import org.launchcode.javawebdevtechjobspersistent.models.data.SkillRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,14 +33,14 @@ public class ListController {
 
         columnChoices.put("all", "All");
         columnChoices.put("employer", "Employer");
-        columnChoices.put("skills", "Skills");
+        columnChoices.put("skill", "Skill");
 
     }
 
     @RequestMapping("")
     public String list(Model model) {
       model.addAttribute("skills",skillRepository.findAll());
-      model.addAttribute("employers",employerRepository.findAll());
+      model.addAttribute("employers",employerRepository.findAllByOrderByNameAsc());
         return "list";
     }
 
