@@ -1,5 +1,5 @@
 ## Part 1: Test it with SQL
-SELECT * FROM techjobs.job;
+SHOW COLUMNS FROM techjobs.job;
 ## Part 2: Test it with SQL
 SELECT * FROM techjobs.job inner join techjobs.employer on job.employer_id=employer.id where employer.location = "st. louis";
 
