@@ -1,6 +1,9 @@
 package org.launchcode.javawebdevtechjobspersistent.controllers;
 
+import org.apache.catalina.User;
+import org.launchcode.javawebdevtechjobspersistent.models.Employer;
 import org.launchcode.javawebdevtechjobspersistent.models.Job;
+import org.launchcode.javawebdevtechjobspersistent.models.Skill;
 import org.launchcode.javawebdevtechjobspersistent.models.data.EmployerRepository;
 import org.launchcode.javawebdevtechjobspersistent.models.data.JobRepository;
 import org.launchcode.javawebdevtechjobspersistent.models.data.SkillRepository;
@@ -13,7 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import org.launchcode.javawebdevtechjobspersistent.models.JobData;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by LaunchCode
@@ -39,8 +45,13 @@ public class ListController {
 
     @RequestMapping("")
     public String list(Model model) {
-      model.addAttribute("skills",skillRepository.findAll());
-      model.addAttribute("employers",employerRepository.findAllByOrderByNameAsc());
+        List<Skill> skills = (List<Skill>) skillRepository.findAll();
+        skills.sort(Comparator.comparing(Skill::getName));
+        List<Employer> employer = (List<Employer>) employerRepository.findAll();
+        employer.sort(Comparator.comparing(Employer::getName));
+
+      model.addAttribute("skills",skills);
+      model.addAttribute("employers",employer);
         return "list";
     }
 
@@ -54,6 +65,8 @@ public class ListController {
             jobs = JobData.findByColumnAndValue(column, value, jobRepository.findAll());
             model.addAttribute("title", "Jobs with " + columnChoices.get(column) + ": " + value);
         }
+        List<Job> jobss = (List<Job>) jobs;
+        jobss.sort(Comparator.comparing(Job::getName));
         model.addAttribute("jobs", jobs);
 
         return "list-jobs";

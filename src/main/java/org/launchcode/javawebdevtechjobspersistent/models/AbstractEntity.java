@@ -1,5 +1,7 @@
 package org.launchcode.javawebdevtechjobspersistent.models;
 
+import org.apache.catalina.User;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
@@ -8,7 +10,7 @@ import javax.validation.constraints.Size;
 import java.util.Objects;
 
 @MappedSuperclass
-public abstract class AbstractEntity {
+public abstract class AbstractEntity{
 
     @Id
     @GeneratedValue
@@ -34,6 +36,7 @@ public abstract class AbstractEntity {
     public String toString() {
         return name;
     }
+
 
     @Override
     public boolean equals(Object o) {
